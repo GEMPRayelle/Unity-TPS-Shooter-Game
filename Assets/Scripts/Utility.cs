@@ -14,6 +14,12 @@ public static class Utility
         return hit.position;
     }
     
+    /// <summary>
+    /// 정규분포로부터 랜덤 값을 가져온다
+    /// </summary>
+    /// <param name="mean"> 입력값 평균값 </param>
+    /// <param name="standard"> 표준편차값 </param>
+    /// <returns>랜덤 값 반환</returns>
     public static float GedRandomNormalDistribution(float mean, float standard)
     {
         var x1 = Random.Range(0f, 1f);
