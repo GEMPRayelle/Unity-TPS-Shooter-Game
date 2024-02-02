@@ -137,6 +137,11 @@ public class Gun : MonoBehaviour
                 damageMessage.hitNormal = hit.normal;
 
                 target.ApplyDamage(damageMessage);
+            }else{//IDamaeable을 가지고 있지않은 오브젝트라면
+                //이펙트를 직접 재생한다
+                EffectManager.Instance.PlayHitEffect(hit.point, hit.normal, 
+                hit.transform);
+
             }
             hitPosition = hit.point;//Ray가 충돌한 위치를 저장
         }
