@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private CharacterController characterController;
     private PlayerInput playerInput;
+    private PlayerShooter playerShooter;
     private Animator animator;
     
     private Camera followCam;
@@ -27,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
+        playerShooter = GetComponent<PlayerShooter>();
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         followCam = Camera.main;
@@ -37,7 +39,9 @@ public class PlayerMovement : MonoBehaviour
     {
         //currentSpeed가 0.2보다 크다는건 조금이라도 움직이는 뜻
         //조금이라도 움직이거나 무기를 사용하면 플레이어가 카메라 방향으로 회전시킨다 
-        if (currentSpeed > 0.2f || playerInput.fire) Rotate();
+        if (currentSpeed > 0.2f || playerInput.fire || 
+        playerShooter.aimState == PlayerShooter.AimState.HipFire) Rotate();
+        //발사버튼을 누르지않아도 aim상태가 HipFire인 동안(1~2초)은 카메라 방향으로 정렬하게한다
 
         Move(playerInput.moveInput);
         
