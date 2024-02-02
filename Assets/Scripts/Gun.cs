@@ -110,6 +110,8 @@ public class Gun : MonoBehaviour
             lastFireTime = Time.time;//마지막으로 총알을 발사한 시점을 갱신
             Shot(fireTransform.position, fireDirection);
             //정규분포 랜덤을 사용하여 탄퍼짐 구현
+
+            return true;//발사가 제대로 된 순간에는 true를 반환
         }
         
         //발사에 실패
