@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections;
-using Newtonsoft.Json.Utilities;
-using UnityEditor.UI;
 using UnityEngine;
-using UnityEngine.AI;
-
 
 public class Gun : MonoBehaviour
 {   
@@ -74,8 +70,8 @@ public class Gun : MonoBehaviour
     private void OnEnable()
     {
         magAmmo = magCapacity;//현재 탄약수를 최대 용량까지 채움
-        currentSpread = 0f;//현재 탄퍼짐 속도를 0부터 시작
-        lastFireTime = 0f;
+        currentSpread = 0;//현재 탄퍼짐 속도를 0부터 시작
+        lastFireTime = 0;
         state = State.Ready;
     }
 
@@ -93,12 +89,13 @@ public class Gun : MonoBehaviour
         if(state == State.Ready && Time.time >= lastFireTime + timeBetFire){//조건 만족시 발사
 
             //총알이 날아가는 방향을 벡터 뺄샘으로 구해야한다
-            var fireDirection = aimTarget = fireTransform.position;
+            //[!]벡터 뺄셈으로해야했지만  aimTarget = fireTransform.position;로 해버리는 실수가있었음
+            var fireDirection = aimTarget - fireTransform.position;
 
             //정규분포에 의한 오차 생성
             //spread가 높으룻록 분포가 완만해져서 오차값이 0과 차이가 많이 나는 값이 들어올 확률이 커진다
-            var xError = Utility.GedRandomNormalDistribution(0f, currentSpread);
-            var yError = Utility.GedRandomNormalDistribution(0f, currentSpread);
+            var xError = Utility.GetRandomNormalDistribution(0f, currentSpread);
+            var yError = Utility.GetRandomNormalDistribution(0f, currentSpread);
 
             //x,y오차만큼 원래 총알이 향하던 방향을 오른쪽이나 위쪽으로 움직여준다
             //곱하게 되면 y축 기준으로 원래 fireDirection에서 yError만큼 조금 더 회전한 방향이 나오게 된다
@@ -126,7 +123,7 @@ public class Gun : MonoBehaviour
 
         //~는 flip operator비트연산자로 비트를 0에서 1로 1에서 0으로 뒤집는 역할을 한다
         //excludeTarget 레이어를 제외하고 Raycast를 실행해야하도록 구현함
-        if(Physics.Raycast(startPoint, direction,out hit, fireDistance, ~excludeTarget)){
+        if(Physics.Raycast(startPoint, direction, out hit, fireDistance, ~excludeTarget)){
             //Raycast가 성공하면 아래 코드가 실행된다
             var target = hit.collider.GetComponent<IDamageable>();//상대방이 데미지를 받을 수 있는 타입인지 검사
             if(target != null){//target을 가져오는데 성공했다면
@@ -166,9 +163,9 @@ public class Gun : MonoBehaviour
 
         gunAudioPlayer.PlayOneShot(shotClip);//클립을 즉시 재생
 
-        bulletLineRenderer.enabled = true;
         bulletLineRenderer.SetPosition(0,fireTransform.position);
         bulletLineRenderer.SetPosition(1,hitPosition);
+        bulletLineRenderer.enabled = true;
 
         yield return new WaitForSeconds(0.03f);
         //대기시간이 없으면 활성화되마자가 궤적을 못그리고 비활성화 된다
