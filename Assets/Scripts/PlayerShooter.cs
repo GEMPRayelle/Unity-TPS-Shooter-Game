@@ -127,7 +127,7 @@ public class PlayerShooter : MonoBehaviour
         //aimPoint값을 플레이어가 조준하고 있는 곳으로 매번 갱신해야한다
 
         RaycastHit hit;//hit정보를 저장할 레이캐스트
-        var ray = playerCamera.ViewportPointToRay(new Vector3(0.5f,0.5f,0f));
+        var ray = playerCamera.ViewportPointToRay(new Vector3(0.5f,0.5f,1f));
         //뷰포트상의 한 점을 찍어 해당 뷰포트 상의 한 점을 향하서 나아가는 ray를 생성해준다
         //화면상에 정중앙으로 뻗어가는 Raycast를 1차적으로 실행
 
