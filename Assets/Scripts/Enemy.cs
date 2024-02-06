@@ -274,7 +274,11 @@ public class Enemy : LivingEntity
     /// </summary>
     public void DisableAttack()
     {
-        state = State.Tracking;//현재상태를 추적중으로 바꾼다
+        if(hasTarget){//추적할 대상이 있다면
+            state = State.Tracking;//현재상태를 추적중으로 바꾼다
+        }else{
+            state = State.Patrol;//공격할 대상이 없어서 정찰중으로 바꾼다
+        }
         
         agent.isStopped = false;//AI가 다시 움직이도록 바꾼다
     }
