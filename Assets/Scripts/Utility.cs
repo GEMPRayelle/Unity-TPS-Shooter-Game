@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public static class Utility
 {
     /// <summary>
-    /// 
+    /// center위치를 중심으로 distance내의 areaMask를 기준으로 랜덤한 위치를 하나 Vec3로 반환시켜주는 메서드
     /// </summary>
     /// <param name="center">중심의 위치</param>
     /// <param name="distance">반경거리</param>
